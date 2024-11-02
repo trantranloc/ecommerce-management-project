@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
+@RequestMapping("/")
 public class ClientController {
 
     private final ProductService productService;
@@ -67,11 +68,11 @@ public class ClientController {
     public String error() {
         return "public/error";
     }
-    @GetMapping("")
-//    Trang chủ web
-    public String index(){
-        return "/public/pages/index";
-    }
+//    @GetMapping("")
+////    Trang chủ web
+//    public String index(){
+//        return "/public/pages/index";
+//    }
 //    Danh sách sản phẩm
     @GetMapping("/products")
     public String product(@RequestParam(required = false) Long categoryId, Model model) {
