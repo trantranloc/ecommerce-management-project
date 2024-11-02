@@ -1,0 +1,80 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/layout :: html}">
+<div th:fragment="content">
+    <div class="container mt-5">
+        <h1 class="mb-4">Bảng điều khiển Admin</h1>
+
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Tìm kiếm đơn hàng...">
+            <button class="btn btn-primary" type="button">Tìm kiếm</button>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Chi tiết đơn hàng
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Đơn hàng #12345</h5>
+                        <p class="card-text" th:text="'Khách hàng : '+${orders.users.fullName}"></p>
+                        <p class="card-text">Ngày: 8 Tháng 8, 2024</p>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Giá</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${orderDetails}">
+                                <td th:text="${item.products.title}"></td>
+                                <td th:text="${item.quantity}"></td>
+                                <td th:text="${#numbers.formatDecimal(item.products.price,0,'COMMA',0,'POINT')}+'đ'"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p class="card-text" th:text="'Tổng : '+ ${#numbers.formatDecimal(orders.totalMoney,0,'COMMA',0,'POINT')}+'đ'"></p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <p th:if="${orders.status}" th:text="'Trạng thái : '+${orders.status.label}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Chi tiết Sản phẩm
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Sản phẩm A</h5>
+                        <p class="card-text">Danh mục: Điện tử</p>
+                        <p class="card-text">Giá: 20.00 đ</p>
+                        <p class="card-text">Còn hàng: 10</p>
+                        <button class="btn btn-success">Chỉnh sửa Sản phẩm</button>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-header">
+                        Thay đổi Trạng thái Đơn hàng
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/update-order-details/{id}(id=${orders.id})}" method="post">
+                            <select class="form-select mb-2" name="newStatus">
+                                <option th:each="stat : ${status}"
+                                        th:value="${stat}"
+                                        th:text="${stat.label}"
+                                        th:selected="${stat == orders.status}">
+                                </option>
+                            </select>
+                            <button type="submit" class="btn btn-primary">Cập nhật Trạng thái</button>
+                        </form>
+<!--                        <a th:href="@{/admin/update-order-details/{id}(id=${orders.id})}"> <button class="btn btn-primary">Cập nhật Trạng thái</button></a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div></html>

@@ -1,0 +1,163 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/layout :: html}">
+<div th:fragment="content">
+    <!-- Main content -->
+    <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Thống kê</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary">Chia sẻ</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Xuất</button>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                <i class="bi bi-calendar"></i>
+                Tuần này
+            </button>
+        </div>
+    </div>
+
+    <!-- Các widget thống kê -->
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-primary stat-card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-currency-dollar me-2"></i>Tổng doanh thu</h5>
+                    <p class="card-text display-6">1,000,000 VNĐ</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-success stat-card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-bag-check me-2"></i>Đơn hàng mới</h5>
+                    <p class="card-text display-6">50</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-info stat-card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-box-seam me-2"></i>Sản phẩm</h5>
+                    <p class="card-text display-6">100</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-warning stat-card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-people-fill me-2"></i>Khách hàng</h5>
+                    <p class="card-text display-6">500</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bảng đơn hàng gần đây -->
+    <h2 class="mt-4 mb-3">Đơn hàng gần đây</h2>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Tìm kiếm đơn hàng...">
+        </div>
+        <div class="col-md-6">
+            <select class="form-select">
+                <option selected>Lọc theo trạng thái</option>
+                <option value="1">Đã giao hàng</option>
+                <option value="2">Đang xử lý</option>
+                <option value="3">Đã hủy</option>
+            </select>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Khách hàng</th>
+                <th>Sản phẩm</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>Nguyễn Văn A</td>
+                <td>Điện thoại XYZ</td>
+                <td>5,000,000 VNĐ</td>
+                <td><span class="badge bg-success">Đã giao hàng</span></td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary">Chi tiết</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Trần Thị B</td>
+                <td>Laptop ABC</td>
+                <td>15,000,000 VNĐ</td>
+                <td><span class="badge bg-warning text-dark">Đang xử lý</span></td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary">Chi tiết</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Lê Văn C</td>
+                <td>Tai nghe DEF</td>
+                <td>500,000 VNĐ</td>
+                <td><span class="badge bg-danger">Đã hủy</span></td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary">Chi tiết</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Sau</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Top sản phẩm bán chạy và Widget thời tiết -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h2 class="mb-3">Top sản phẩm bán chạy</h2>
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Điện thoại XYZ
+                    <span class="badge bg-primary rounded-pill">254</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Laptop ABC
+                    <span class="badge bg-primary rounded-pill">199</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Tai nghe DEF
+                    <span class="badge bg-primary rounded-pill">152</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Thời tiết
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Hà Nội, Việt Nam</h5>
+                    <p class="card-text">Nhiệt độ: 25°C, Độ ẩm: 70%</p>
+                    <p class="card-text"><small class="text-muted">Cập nhật lúc: 10:00 AM</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

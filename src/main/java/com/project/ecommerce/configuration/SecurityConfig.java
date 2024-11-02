@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -21,24 +22,21 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         registry -> registry
-//                                .requestMatchers("/admin","/admin/**").hasAnyAuthority("ADMIN")
-//                                .requestMatchers("/**").hasAnyAuthority("ADMIN","USER")
-//                                .requestMatchers("/error","/").permitAll()
-//                                .anyRequest().authenticated()
-                                .anyRequest().permitAll()
+                                .anyRequest().permitAll() // Cho phép tất cả truy cập
                 )
                 .formLogin(
                         form -> form
                                 .loginPage("/login").permitAll()
+                                .successHandler((request, response, authentication) -> {
+                                    // Chuyển hướng đến /admin sau khi đăng nhập thành công
+                                    response.sendRedirect("/admin");
+                                })
                 )
                 .logout(LogoutConfigurer::permitAll)
                 .exceptionHandling(eh ->
                         eh.authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/error"))
                                 .accessDeniedHandler((request, response, accessDeniedException) -> response.sendRedirect("/error"))
-                )
-                .userDetailsService(userDetailsService())
-                .authenticationProvider(authenticationProvider())
-        ;
+                );
 
         return http.build();
     }
@@ -47,10 +45,12 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
+
     @Bean
     UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
     }
+
     @Bean
     DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();

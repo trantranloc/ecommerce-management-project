@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{public/layout :: html}">
+<div th:fragment="content">
+    <main class="container py-5">
+        <h1 class="mb-4">Giỏ hàng của bạn</h1>
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Hình ảnh</th>
+                        <th>Sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Tổng</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="cart : ${carts}">
+                        <td>
+                            <img th:if="${cart.products != null}" th:src="@{'/uploads/' + ${cart.products.thumbnail}}" th:alt="${cart.products.thumbnail}" width="50" height="50">
+                        </td>
+                        <td class="align-middle" th:text="${cart.products.title}"></td>
+                        <td class="align-middle" th:text="${#numbers.formatDecimal(cart.products.price, 0, 'COMMA', 0, 'POINT')} + '₫'"></td>
+                        <td class="align-middle">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <a th:href="@{/delete-o-cart/{id}(id=${cart.id})}" class="text-danger me-2">
+                                    <i class="bi bi-dash"></i>
+                                </a>
+                                <p class="mb-0" th:text="${cart.quantity}"></p>
+                                <a th:href="@{/add-o-cart/{id}(id=${cart.products.id})}" class="text-success ms-2">
+                                    <i class="bi bi-plus"></i>
+                                </a>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex align-items-center justify-content-end gap-2">
+                                <p class="mb-0" th:text="${#numbers.formatDecimal((cart.quantity*cart.products.price),0,'COMMA',0,'POINT')}+'đ'"></p>
+                                <a th:href="@{/delete-cart/{id}(id=${cart.id})}">
+                                    <button class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4 ">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Tổng giỏ hàng</h5>
+                        <div class="d-flex gap-5 p-2 w-100 justify-content-space-between">
+                            <b>Tổng :</b>
+                            <p class="card-text" th:text="${total}"></p>
+                        </div>
+<!--                        nếu trong giỏ hàng có sản phẩm thì xanh không có thì đỏ-->
+                        <a th:if="${carts.size() > 0}" th:href="@{/orders}" class="btn btn-success w-100">Thanh toán <b th:text="'( '+${quantity}+' )'"></b></a>
+                        <a th:if="${carts.size() == 0}" class="btn btn-danger w-100">Thanh toán <b th:text="'( '+${quantity}+' )'"></b></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</html>
