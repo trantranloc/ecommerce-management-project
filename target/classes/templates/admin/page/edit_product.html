@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/layout :: html}">
+<div th:fragment="content">
+            <div class="container-lg">
+                <div class="row justify-content-center">
+                    <div class="col-8 m-5 p-5 shadow">
+                        <div
+                                class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Sửa thông tin Sản phẩm</h1>
+                        </div>
+                    <div class="modal-body">
+                        <!-- Form thêm người dùng -->
+                        <form th:action="@{/admin/update-product/{id}(id=${update_product.id})}" method="post" th:object="${update_product}" enctype="multipart/form-data" >
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">Tên sản phẩm </label>
+                                        <input type="text" class="form-control" id="title" th:field="*{title}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Hình ảnh sản phẩm</label>
+                                        <div>
+<!--                                            <input type="hidden" th:field="*{thumbnail}" />-->
+                                            <img th:if="*{thumbnail}" th:src="@{'/uploads/' + *{thumbnail}}" alt="Current Image" style="max-width: 200px; max-height: 200px;" />
+<!--                                            <p th:if="*{thumbnail}" th:text="*{thumbnail}"></p>-->
+<!--                                            <p th:unless="*{thumbnail}">Không có ảnh</p>-->
+                                        </div>
+                                        <input type="file" name="fileImage" accept="image/*" class="form-control mt-2" />
+<!--                                        <small class="form-text text-muted">Để trống nếu không muốn thay đổi ảnh.</small>-->
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Mô tả</label>
+                                        <input type="text" class="form-control " id="description" th:field="*{description}" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Giá Bán</label>
+                                        <input type="number" class="form-control" id="price" th:field="*{price}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="discount" class="form-label">Giảm giá</label>
+                                        <input type="number" class="form-control" id="discount" th:field="*{discount}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="quantity" class="form-label">Số lượng</label>
+                                        <input type="number" class="form-control" id="quantity" th:field="*{quantity}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="userRole" class="form-label">Loại sản phẩm</label>
+                                        <select class="form-select" th:field="*{categorys.id}" id="userRole" required>
+                                            <option th:each="category : ${categoryAll}" th:value="${category?.id}" th:text="${category?.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer ">
+                                <a th:href="@{/admin/products}"><button type="button" class="btn btn-secondary m-2" data-bs-dismiss="modal">Đóng</button></a>
+                                <button type="submit" class="btn btn-primary  m-2">Sửa sản phẩm</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                </div>
+            </div>
+</div>
+</html>

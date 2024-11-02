@@ -1,0 +1,84 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{public/layout :: html}">
+<div th:fragment="content">
+  <main class="container py-5">
+    <div class="row">
+      <div class="col-md-8">
+        <h1 class="mb-4">Thông tin đơn hàng</h1>
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="card-title mb-0">Thông tin người đặt</h2>
+            <button type="button" class="btn btn-sm btn-primary">Sửa</button>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Họ và tên:</span>
+              <span>Nguyễn Văn A</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Số điện thoại:</span>
+              <span>0123456789</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Địa chỉ:</span>
+              <span>123 Đường ABC, Quận XYZ, Thành phố ABC</span>
+            </li>
+          </ul>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="card-title mb-0">Sản phẩm</h2>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between" th:each="order : ${carts}">
+              <span class="d-flex gap-1"><p th:text="${order.products.title }"></p> <p th:text="' (x'+${order.quantity}+')'"></p> </span>
+              <span th:text="${#numbers.formatDecimal(order.products.price,0,'COMMA',0,'POINT')}+' đ '"></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group mb-3">
+          <label for="couponCode">Mã giảm giá</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="couponCode" placeholder="Nhập mã giảm giá">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button" id="applyCoupon">Áp dụng</button>
+            </div>
+          </div>
+        </div>
+        <div class="card border-primary mb-3">
+          <div class="card-header bg-primary text-white">Tóm tắt chi phí</div>
+          <div class="card-body">
+            <table class="table table-hover">
+              <tbody>
+              <tr>
+                <td>Tổng phụ :</td>
+                <td class="text-end fw-bold" th:text="${total}"></td>
+              </tr>
+              <tr>
+                <td>Giảm giá:</td>
+                <td class="text-end text-success fw-bold"></td>
+              </tr>
+              <tr>
+                <td>Tổng:</td>
+                <td class="text-end text-danger fw-bold" th:text="${total}">80.000 VND</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p>Phương thức thanh toán:</p>
+        <div class="form-check mb-3">
+          <label class="form-check-label" for="cash">Thanh toán khi nhận hàng </label>
+          <input class="form-check-input" type="radio" name="paymentMethod" id="cash" value="cash" checked>
+        </div>
+        <div class="form-check mb-3">
+          <label class="form-check-label" for="transfer">Ví điện tử MOMO</label>
+          <input class="form-check-input" type="radio" name="paymentMethod" id="transfer" value="transfer">
+        </div>
+        <a th:href="@{/order}"><button type="button" class="btn btn-danger w-100 ">Đặt hàng</button></a>
+      </div>
+    </div>
+  </main>
+</div>
+</html>
