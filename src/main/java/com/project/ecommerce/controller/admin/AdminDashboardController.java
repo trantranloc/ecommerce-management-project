@@ -20,6 +20,7 @@ public class AdminDashboardController {
     //  Quản lý  Trang chủ
     @GetMapping("/")
     public String index() {
+
         return "/admin/page/index";
     }
     @GetMapping("/customers")
