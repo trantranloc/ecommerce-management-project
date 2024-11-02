@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -20,24 +21,27 @@ public class SecurityConfig {
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(registry -> registry
-                        .dispatcherTypeMatchers(HttpMethod.valueOf("/admin/**")).authenticated() // yêu cầu xác thực cho admin
-                        .anyRequest().permitAll() // cho phép tất cả các yêu cầu khác
+                .authorizeHttpRequests(
+                        registry -> registry
+                                .dispatcherTypeMatchers(HttpMethod.valueOf("/admin/**")).authenticated() // yêu cầu xác thực cho admin
+                                .anyRequest().permitAll() // Cho phép tất cả truy cập
                 )
-                .formLogin(form -> form
-                        .loginPage("/login").permitAll()
+                .formLogin(
+                        form -> form
+                                .loginPage("/login").permitAll()
+                                .successHandler((request, response, authentication) -> {
+                                    // Chuyển hướng đến /admin sau khi đăng nhập thành công
+                                    response.sendRedirect("/admin");
+                                })
                 )
                 .logout(LogoutConfigurer::permitAll)
-                .exceptionHandling(eh -> eh
-                        .authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/error"))
-                        .accessDeniedHandler((request, response, accessDeniedException) -> response.sendRedirect("/error"))
-                )
-                .userDetailsService(userDetailsService())
-                .authenticationProvider(authenticationProvider());
+                .exceptionHandling(eh ->
+                        eh.authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/error"))
+                                .accessDeniedHandler((request, response, accessDeniedException) -> response.sendRedirect("/error"))
+                );
 
         return http.build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
