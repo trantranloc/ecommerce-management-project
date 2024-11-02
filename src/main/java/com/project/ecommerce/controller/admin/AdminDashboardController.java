@@ -18,9 +18,8 @@ public class AdminDashboardController {
         this.otherService = otherService;}
 
     //  Quản lý  Trang chủ
-    @GetMapping("/")
+    @GetMapping("")
     public String index() {
-
         return "/admin/page/index";
     }
     @GetMapping("/customers")
