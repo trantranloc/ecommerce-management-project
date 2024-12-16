@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WebController {
     @GetMapping
     public String index() {
-        return "hello";
+        return "public/pages/index";
     }
 }

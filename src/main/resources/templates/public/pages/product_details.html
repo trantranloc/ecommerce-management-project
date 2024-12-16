@@ -29,7 +29,7 @@
 
             <!-- Thông tin sản phẩm -->
             <div class="col-md-6">
-                <h1 class="mb-4" th:text="products.name"></h1>
+                <h1 class="mb-4" th:text="${products.title}"></h1>
                 <p class="text-muted mb-4">Mã sản phẩm: SP001</p>
                 <div class="d-flex align-items-center mb-4">
                     <h2 class="text-primary me-3" th:text="${#numbers.formatDecimal(price,0 ,'COMMA',0,'POINT')}+'đ'"></h2>

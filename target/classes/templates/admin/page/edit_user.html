@@ -1,0 +1,50 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/layout :: html}">
+<div th:fragment="content">
+            <div class="container-lg">
+                <div class="row justify-content-center">
+                    <div class="col-8 m-5 p-5 shadow">
+                        <div
+                                class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Sửa thông tin Người dùng</h1>
+                        </div>
+                    <div class="modal-body">
+                        <!-- Form thêm người dùng -->
+                        <form  th:action="@{/admin/update-user/{id}(id=${update_user.id})}"  method="post" th:object="${update_user}">
+                            <div class="mb-3">
+                                <label for="updateFullName" class="form-label">Họ tên</label>
+                                <input type="text" class="form-control" id="updateFullName"  th:field="*{fullName}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updateUsername" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="updateUsername" th:field="*{username}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updateEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="updateEmail" th:field="*{email}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updatePassword" class="form-label">Mật khẩu</label>
+                                <input type="password" class="form-control" id="updatePassword" th:field="*{password}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="updateRole" class="form-label">Vai trò</label>
+                                <select class="form-select" th:field="*{roles}" id="updateRole" required>
+                                    <option th:each="role : ${roles}" th:value="${role?.id}" th:text="${role?.name} "></option>
+                                </select>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <label class="form-check-label" for="updateEnabled">Enabled</label>
+                                <input type="checkbox" class="form-check-input" id="updateEnabled" name="enabled" th:field="*{enable}" checked>
+                            </div>
+                            <div class="d-flex justify-content-end gap-3">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary">Sửa người dùng</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                </div>
+            </div>
+</div>
+</html>
